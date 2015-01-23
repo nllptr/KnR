@@ -2,6 +2,7 @@
 #define MAXLINE 1000
 
 int getaline(char line[], int maxline);
+void reverse(char line[], int length);
 
 /* print longest input line */
 main()
@@ -9,10 +10,10 @@ main()
 	int len;				/* current line length */
 	char line[MAXLINE];		/* current input line */
 
-	while ((len = getaline(line, MAXLINE)) > 0)
-		if (line[0] != '\n') {
-			printf(">>%s<<\n", line);
-		}
+	while ((len = getaline(line, MAXLINE)) > 0) {
+		reverse(line, len);
+		printf("%s", line);
+	}
 	printf("\n");
 	return 0;
 }
@@ -29,10 +30,19 @@ int getaline(char s[], int lim)
 		++i;
 	}
 	s[i] = '\0';
-//	while (s[i-1] == ' ' || s[i-1] == '\t' || s[i-1] == '\n') { /* used for testing */
-	while (s[i-1] == ' ' || s[i-1] == '\t') {
-		s[i-1] = '\0';
-		--i;
-	}
+
 	return i;
+}
+
+void reverse(char line[], int length)
+{
+	int i, last = length - 1;
+
+	if(line[length-1] == '\n') last = length - 2;
+
+	for (i=0; i <= last/2; ++i) {
+		char tmp = line[i];
+		line[i] = line[last-i];
+		line[last-i] = tmp;
+	}
 }
